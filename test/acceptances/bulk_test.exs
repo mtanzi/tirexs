@@ -2,7 +2,7 @@ defmodule Acceptances.BulkTest do
   use ExUnit.Case
 
   import Tirexs.Bulk
-  alias Tirexs.{HTTP, Resources}
+  alias Tirexs.{HTTP, Resources, Resources.APIs}
 
 
   setup do
@@ -26,7 +26,7 @@ defmodule Acceptances.BulkTest do
       index  id: 90, title: "barww"
     end
 
-    {_, _, body} = HTTP.get("bear_test/_count")
+    {:ok, 200, body} = Resources.bump._count("bear_test")
     assert body[:count] == 11
   end
 

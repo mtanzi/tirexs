@@ -5,6 +5,11 @@ defmodule Tirexs.Bulk do
 
 
   @doc false
+  defmacro bulk(optioins \\ [], [do: block]) do
+    extract_block(block)
+  end
+
+  @doc false
   defmacro store(options, uri, [do: block]) do
     documents = extract_block(block)
     quote do
@@ -32,6 +37,12 @@ defmodule Tirexs.Bulk do
 
   @doc false
   def update(opts), do: [update: opts]
+
+  @doc false
+  def doc(opts), do: [doc: opts]
+
+  @doc false
+  def body(opts), do: opts
 
   @doc false
   def bulk(documents, options, settings) do
