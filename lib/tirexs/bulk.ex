@@ -2,6 +2,7 @@ defmodule Tirexs.Bulk do
   @moduledoc false
 
   import Tirexs.DSL.Logic
+  alias Tirexs.HTTP
 
 
   @doc false
@@ -64,7 +65,7 @@ defmodule Tirexs.Bulk do
       header = Dict.put([], action, meta)
 
       output = []
-      output =  output ++ [Tirexs.HTTP.encode(header)]
+      output =  output ++ [HTTP.encode(header)]
       unless action == :delete do
         output =  output ++ [convert_document_to_json(document)]
       end
@@ -72,7 +73,7 @@ defmodule Tirexs.Bulk do
     end
     payload = payload ++ [""]
     payload = Enum.join(payload, "\n")
-    Tirexs.ElasticSearch.post("_bulk" <> to_param(options, ""), payload, settings)
+    HTTP.post("_bulk" <> to_param(options, ""), payload, settings)
   end
 
   @doc false
@@ -96,7 +97,7 @@ defmodule Tirexs.Bulk do
 
   @doc false
   def convert_document_to_json(document) do
-    Tirexs.HTTP.encode(document)
+    HTTP.encode(document)
   end
 
   @doc false
